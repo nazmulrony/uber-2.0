@@ -11,7 +11,7 @@ const MapScreen = () => {
 				<Map />
 			</View>
 			<View className="h-1/2 ">
-				<Stack.Navigator>
+				<Stack.Navigator screenOptions={{ gestureEnabled: true }}>
 					<Stack.Screen
 						name="NavigateCard"
 						component={NavigateCard}

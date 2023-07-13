@@ -26,7 +26,6 @@ const HomeScreen = () => {
 					placeholder="Where From?"
 					enablePoweredByContainer={false}
 					onPress={(data, details = null) => {
-						console.log(data);
 						dispatch(
 							setOrigin({
 								location: details.geometry.location,
