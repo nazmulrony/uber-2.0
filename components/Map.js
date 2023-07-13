@@ -11,25 +11,21 @@ const Map = () => {
 	const destination = useSelector(selectDestination);
 	const mapRef = useRef(null);
 
-	// useEffect(() => {
-	// 	if (!origin || !destination || !mapRef.current) return;
-	// 	mapRef.current.fitToSuppliedMarkers(['origin', 'destination'], {
-	// 		edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-	// 	});
-	// }, [origin, destination]);
-	const onMapHandler = () => {
+	useEffect(() => {
 		if (!origin || !destination || !mapRef.current) return;
+		console.log('Origin', origin);
+		console.log('Destination', destination);
+		//fitBounds
 		mapRef.current.fitToSuppliedMarkers(['origin', 'destination'], {
 			edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
 		});
-	};
+	}, [origin, destination, mapRef.current]);
 
 	return (
 		<MapView
 			ref={mapRef}
 			className="flex-1"
 			mapType="mutedStandard"
-			onMapReady={onMapHandler}
 			initialRegion={{
 				latitude: origin.location.lat,
 				longitude: origin.location.lng,
