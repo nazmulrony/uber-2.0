@@ -6,7 +6,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from '@env';
 import { useEffect, useRef } from 'react';
 import { Image } from 'react-native';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 const Map = () => {
 	const origin = useSelector(selectOrigin);
@@ -58,11 +58,11 @@ const Map = () => {
 					description={origin.description}
 					identifier="origin"
 				>
-					<MaterialIcons
-						name="location-history"
-						size={24}
-						color="black"
-					/>
+					{destination?.location ? (
+						<FontAwesome name="circle" size={18} color="black" />
+					) : (
+						<Ionicons name="md-location" size={24} color="black" />
+					)}
 				</Marker>
 			)}
 			{destination?.location && (
@@ -76,7 +76,7 @@ const Map = () => {
 					description={destination.description}
 					identifier="destination"
 				>
-					<Ionicons name="location-sharp" size={24} color="black" />
+					<Ionicons name="md-location" size={24} color="black" />
 				</Marker>
 			)}
 			{origin?.location && destination?.location && (
@@ -85,7 +85,7 @@ const Map = () => {
 					destination={destination.description}
 					apikey={GOOGLE_API_KEY}
 					strokeColor="black"
-					strokeWidth={5}
+					strokeWidth={4}
 				/>
 			)}
 		</MapView>

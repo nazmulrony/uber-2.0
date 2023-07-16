@@ -7,6 +7,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MapScreen from './screens/MapScreen';
 import EatsScreen from './screens/EatsScreen';
+import { KeyboardAvoidingView } from 'react-native';
+import { Platform } from 'react-native';
 
 export default function App() {
 	const Stack = createStackNavigator();
@@ -16,29 +18,35 @@ export default function App() {
 			<NavigationContainer>
 				<SafeAreaProvider>
 					<StatusBar style="dark" />
-					<Stack.Navigator>
-						<Stack.Screen
-							name="HomeScreen"
-							component={HomeScreen}
-							options={{
-								headerShown: false,
-							}}
-						/>
-						<Stack.Screen
-							name="MapScreen"
-							component={MapScreen}
-							options={{
-								headerShown: false,
-							}}
-						/>
-						<Stack.Screen
-							name="EatsScreen"
-							component={EatsScreen}
-							options={{
-								headerShown: false,
-							}}
-						/>
-					</Stack.Navigator>
+					<KeyboardAvoidingView
+						style={{ flex: 1 }}
+						behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+						keyboardVerticalOffset={Platform.OS === 'ios' ? -64 : 0}
+					>
+						<Stack.Navigator>
+							<Stack.Screen
+								name="HomeScreen"
+								component={HomeScreen}
+								options={{
+									headerShown: false,
+								}}
+							/>
+							<Stack.Screen
+								name="MapScreen"
+								component={MapScreen}
+								options={{
+									headerShown: false,
+								}}
+							/>
+							<Stack.Screen
+								name="EatsScreen"
+								component={EatsScreen}
+								options={{
+									headerShown: false,
+								}}
+							/>
+						</Stack.Navigator>
+					</KeyboardAvoidingView>
 					{/* <HomeScreen /> */}
 				</SafeAreaProvider>
 			</NavigationContainer>
