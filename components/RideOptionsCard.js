@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 
 const data = [
 	{
@@ -32,6 +33,7 @@ const data = [
 
 const RideOptionsCard = () => {
 	const navigation = useNavigation();
+	const [selected, setSelected] = useState(null);
 	return (
 		<SafeAreaView className="bg-white flex-grow">
 			<View className="relative">
@@ -44,10 +46,19 @@ const RideOptionsCard = () => {
 				<Text className="text-center py-5 text-xl">Select a Ride</Text>
 			</View>
 			<FlatList
+				style={{ flex: 1 }}
 				data={data}
 				keyExtractor={(item) => item.id}
-				renderItem={({ item: { title, multiplier, image }, item }) => (
-					<TouchableOpacity className="flex-row items-center justify-between px-10 ">
+				renderItem={({
+					item: { id, title, multiplier, image },
+					item,
+				}) => (
+					<TouchableOpacity
+						onPress={() => setSelected(item)}
+						className={`flex-row items-center justify-between  px-10 ${
+							id === selected?.id && 'bg-gray-200'
+						}  `}
+					>
 						<Image
 							source={{ uri: image }}
 							style={{
@@ -66,6 +77,18 @@ const RideOptionsCard = () => {
 					</TouchableOpacity>
 				)}
 			/>
+			<View>
+				<TouchableOpacity
+					disabled={!selected}
+					className={`bg-black  py-3 mx-5 m-3 ${
+						!selected && 'bg-gray-300'
+					}`}
+				>
+					<Text className="text-center text-white text-xl">
+						Choose {selected?.title}
+					</Text>
+				</TouchableOpacity>
+			</View>
 		</SafeAreaView>
 	);
 };

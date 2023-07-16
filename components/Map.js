@@ -85,6 +85,7 @@ const Map = () => {
 					destination={destination.description}
 					apikey={GOOGLE_API_KEY}
 					strokeColor="black"
+					// strokeColor="#4CAF50"
 					strokeWidth={4}
 				/>
 			)}
