@@ -5,6 +5,8 @@ import { selectDestination, selectOrigin } from '../redux/slices/navReducer';
 import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from '@env';
 import { useEffect, useRef } from 'react';
+import { Image } from 'react-native';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 const Map = () => {
 	const origin = useSelector(selectOrigin);
@@ -13,13 +15,26 @@ const Map = () => {
 
 	useEffect(() => {
 		if (!origin || !destination || !mapRef.current) return;
-		console.log('Origin', origin);
-		console.log('Destination', destination);
-		//fitBounds
-		mapRef.current.fitToSuppliedMarkers(['origin', 'destination'], {
-			edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-		});
-	}, [origin, destination, mapRef.current]);
+		// mapRef.current.fitToSuppliedMarkers(['origin', 'destination'], {
+		// 	edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+		// });
+		mapRef.current.fitToCoordinates(
+			[
+				{
+					latitude: origin.location.lat,
+					longitude: origin.location.lng,
+				},
+				{
+					latitude: destination.location.lat,
+					longitude: destination.location.lng,
+				},
+			],
+			{
+				edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+				animated: true,
+			}
+		);
+	}, [origin, destination]);
 
 	return (
 		<MapView
@@ -32,11 +47,9 @@ const Map = () => {
 				latitudeDelta: 0.01,
 				longitudeDelta: 0.01,
 			}}
-			// zoomControlEnabled={true}
 		>
 			{origin?.location && (
 				<Marker
-					pinColor="black"
 					coordinate={{
 						latitude: origin.location.lat,
 						longitude: origin.location.lng,
@@ -44,11 +57,17 @@ const Map = () => {
 					title="Origin"
 					description={origin.description}
 					identifier="origin"
-				/>
+				>
+					<MaterialIcons
+						name="location-history"
+						size={24}
+						color="black"
+					/>
+				</Marker>
 			)}
 			{destination?.location && (
 				<Marker
-					pinColor="black"
+					pinColor="blue"
 					coordinate={{
 						latitude: destination.location.lat,
 						longitude: destination.location.lng,
@@ -56,7 +75,9 @@ const Map = () => {
 					title="Destination"
 					description={destination.description}
 					identifier="destination"
-				/>
+				>
+					<Ionicons name="location-sharp" size={24} color="black" />
+				</Marker>
 			)}
 			{origin?.location && destination?.location && (
 				<MapViewDirections
