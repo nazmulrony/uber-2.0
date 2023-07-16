@@ -19,7 +19,9 @@ export default function App() {
 				<SafeAreaProvider>
 					<StatusBar style="dark" />
 					<KeyboardAvoidingView
-						style={{ flex: 1 }}
+						style={{
+							flex: 1,
+						}}
 						behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 						keyboardVerticalOffset={Platform.OS === 'ios' ? -64 : 0}
 					>
@@ -47,7 +49,6 @@ export default function App() {
 							/>
 						</Stack.Navigator>
 					</KeyboardAvoidingView>
-					{/* <HomeScreen /> */}
 				</SafeAreaProvider>
 			</NavigationContainer>
 		</Provider>

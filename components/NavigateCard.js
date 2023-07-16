@@ -40,7 +40,7 @@ const NavigateCard = () => {
 				</View>
 				<NavFavourites />
 			</View>
-			<View className="flex-row items-center justify-evenly py-2 mt-auto border-t border-gray-100  mb-2">
+			<View className="flex-row items-center  bg-white justify-evenly py-2 mt-auto border-t border-gray-100  pb-2">
 				<TouchableOpacity
 					onPress={() => navigation.navigate('RideOptionsCard')}
 					className="w-24 bg-black flex flex-row justify-between items-center rounded-full px-4 py-3"

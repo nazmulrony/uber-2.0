@@ -13,6 +13,7 @@ const Map = () => {
 	const destination = useSelector(selectDestination);
 	const mapRef = useRef(null);
 
+	//this useEffect sets the markers visible in the map window
 	useEffect(() => {
 		if (!origin || !destination || !mapRef.current) return;
 		// mapRef.current.fitToSuppliedMarkers(['origin', 'destination'], {
@@ -36,6 +37,20 @@ const Map = () => {
 		);
 	}, [origin, destination]);
 
+	//to calculate distance
+	useEffect(() => {
+		if (!origin || !destination) return;
+
+		// const getTravelTime = async () => {
+		// 	fetch(`https://maps.googleapis.com/maps/api/distancematrix/json
+		// 	?units=imperial&origins=${origin.description}&destinations=${destination.description}&key=${GOOGLE_API_KEY}`)
+		// 		.then((res) => res.json())
+		// 		.then((data) => {
+		// 			console.log(data);
+		// 		});
+		// };
+		// getTravelTime();
+	}, [origin, destination, GOOGLE_API_KEY]);
 	return (
 		<MapView
 			ref={mapRef}
