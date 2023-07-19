@@ -9,6 +9,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectTravelTimeInformation } from '../redux/slices/navReducer';
 
 const data = [
 	{
@@ -20,7 +22,7 @@ const data = [
 	{
 		id: 'Uber-L-456',
 		title: 'Uber XL',
-		multiplier: 1.2,
+		multiplier: 1.4,
 		image: 'https://links.papareact.com/5w8',
 	},
 	{
@@ -31,9 +33,19 @@ const data = [
 	},
 ];
 
+const ratePerMin = 3;
+const ratePerKiloMeter = 21;
+const baseRate = 60;
+
 const RideOptionsCard = () => {
 	const navigation = useNavigation();
 	const [selected, setSelected] = useState(null);
+	const travelTimeInformation = useSelector(selectTravelTimeInformation);
+
+	const price =
+		(travelTimeInformation?.duration?.value / 60) * ratePerMin +
+		(travelTimeInformation?.distance?.value / 1000) * ratePerKiloMeter;
+
 	return (
 		<SafeAreaView className="bg-white flex-grow">
 			<View className="relative">
@@ -43,7 +55,10 @@ const RideOptionsCard = () => {
 				>
 					<Ionicons name="chevron-back" size={24} color="black" />
 				</TouchableOpacity>
-				<Text className="text-center py-5 text-xl">Select a Ride</Text>
+				<Text className="text-center py-5 text-xl">
+					Select a Ride -{' '}
+					{travelTimeInformation?.distance?.value / 1000} km
+				</Text>
 			</View>
 			<FlatList
 				style={{ flex: 1 }}
@@ -55,7 +70,7 @@ const RideOptionsCard = () => {
 				}) => (
 					<TouchableOpacity
 						onPress={() => setSelected(item)}
-						className={`flex-row items-center justify-between  px-10 ${
+						className={`flex-row items-center justify-between  px-5 ${
 							id === selected?.id && 'bg-gray-200'
 						}  `}
 					>
@@ -68,16 +83,22 @@ const RideOptionsCard = () => {
 							}}
 						/>
 						<View className="-ml-6">
-							<Text className="text-xl font-semibold">
-								{title}
+							<Text className="text-lg font-medium">{title}</Text>
+							<Text className="text-xs">
+								{travelTimeInformation?.duration?.text} travel
+								time
 							</Text>
-							<Text>Travel time..</Text>
 						</View>
-						<Text className="text-xl">$40.00</Text>
+						<Text className="text-lg font-medium">
+							{new Intl.NumberFormat('en-bd', {
+								style: 'currency',
+								currency: 'BDT',
+							}).format(baseRate + price * multiplier)}
+						</Text>
 					</TouchableOpacity>
 				)}
 			/>
-			<View>
+			<View className="mt-auto border-t border-gray-200">
 				<TouchableOpacity
 					disabled={!selected}
 					className={`bg-black  py-3 mx-5 m-3 ${
