@@ -70,6 +70,10 @@ const Map = () => {
 				latitudeDelta: 0.01,
 				longitudeDelta: 0.01,
 			}}
+			// style={}
+			showsMyLocationButton={true}
+			showsUserLocation={true}
+			// zoomControlEnabled={true}
 		>
 			{origin?.location && (
 				<Marker
